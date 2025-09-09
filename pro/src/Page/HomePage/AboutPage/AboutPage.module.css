@@ -1,0 +1,293 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+    width: 100%;
+  max-width: none;
+  font-family: 'Arial', sans-serif;
+  background-color: white;
+}
+
+.navTabs {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: white;
+  border-bottom: 1px solid #e9ecef;
+  gap: 2rem;
+  margin-top: -1.3rem;
+}
+
+.navTab {
+  background: none;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #6c757d;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  position: relative;
+}
+
+.navTab:hover {
+color: #333;
+}
+
+.navTab.active {
+   color: #333;
+  font-weight: 600;
+}
+
+.navTab.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1rem;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #8B7355;
+}
+
+.aboutContent {
+  padding: 20px 0;
+}
+
+.header {
+  text-align: center;
+   margin-top: -3rem;
+}
+
+.header h1 {
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.header p {
+  font-size: 1.2rem;
+  color: #666;
+  margin: 0;
+   margin-bottom: 2rem;
+}
+
+.contentSection {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+
+.missionSection h2,
+.featuresSection h2,
+.valuesSection h2,
+.contactSection h2 {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.missionSection p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #555;
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.featureGrid {
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.featureCard {
+  background:  white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.featureCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.featureIcon {
+  width: 60px;
+  height: 60px;
+  background-color:#7a5e3b;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+}
+
+.featureIcon i {
+  font-size: 24px;
+  color: white;
+}
+
+.featureCard h3 {
+  font-size: 1.3rem;
+  color: #333;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.featureCard p {
+  color: #666;
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+.valuesList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.valueItem {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  border-left: 4px solid #7a5e3b;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #555;
+}
+
+.valueItem strong {
+  color: #7a5e3b;
+  font-weight: 600;
+}
+
+.contactSection {
+  text-align: center;
+}
+
+.contactSection p {
+  font-size: 1.1rem;
+  color: #666;
+  margin-bottom: 30px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.contactInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.contactItem {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #555;
+}
+
+.contactItem i {
+  color: #7a5e3b;
+  font-size: 18px;
+  width: 20px;
+  text-align: center;
+}
+.scrollTopButton {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: #7a5e3b;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  padding: 12px 15px;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+
+.scrollTopButton:hover {
+  background: #5c452a;
+  transform: translateY(-3px);
+}
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    padding: 15px;
+  }
+  
+  .navTabs {
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  
+  .navTab {
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+  
+  .header h1 {
+    font-size: 2.2rem;
+  }
+  
+  .header p {
+    font-size: 1rem;
+  }
+  
+  .featureGrid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .featureCard {
+    padding: 20px;
+  }
+  
+  .contactInfo {
+    max-width: 100%;
+  }
+  
+  .contactItem {
+    flex-direction: column;
+    text-align: center;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .header h1 {
+    font-size: 1.8rem;
+  }
+  
+  .missionSection h2,
+  .featuresSection h2,
+  .valuesSection h2,
+  .contactSection h2 {
+    font-size: 1.5rem;
+  }
+  
+  .contentSection {
+    gap: 30px;
+  }
+}

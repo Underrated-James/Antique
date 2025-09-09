@@ -1,0 +1,70 @@
+.navTabs {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid #e1e8ed;
+  position: sticky;
+  top: 60px; /* Adjust based on your header height */
+  background-color: white;
+  z-index: 1;
+}
+
+.navTab {
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #666;
+  cursor: pointer;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.navTab:hover {
+  color: #333;
+  background-color: #f8f9fa;
+}
+
+.navTab.active {
+  color: #667eea;
+  background-color: rgba(102, 126, 234, 0.1);
+  font-weight: 600;
+}
+
+.navTab.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 3px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 2px;
+}
+
+@media (max-width: 768px) {
+  .navTabs {
+    gap: 1rem;
+  }
+  
+  .navTab {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .navTabs {
+    gap: 0.5rem;
+  }
+  
+  .navTab {
+    font-size: 0.9rem;
+    padding: 0.5rem 0.75rem;
+  }
+}

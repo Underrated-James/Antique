@@ -1,0 +1,169 @@
+VINQUE E-COMMERCE INSTALLATION GUIDE
+=====================================
+
+Server Details:
+- IP: 151.106.117.181
+- Port: 65002
+- Username: u528702659
+- Password: Chons123
+
+PHASE 1: SERVER SETUP (Run these commands first)
+================================================
+
+1. Test SSH Connection:
+ssh -p 65002 u528702659@151.106.117.181 "whoami && pwd && echo 'SSH Connection Successful'"
+
+2. Update System:
+ssh -p 65002 u528702659@151.106.117.181 "sudo apt update && sudo apt upgrade -y"
+
+3. Install Node.js:
+ssh -p 65002 u528702659@151.106.117.181 "curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -"
+ssh -p 65002 u528702659@151.106.117.181 "sudo apt install -y nodejs"
+
+4. Install MySQL:
+ssh -p 65002 u528702659@151.106.117.181 "sudo apt install -y mysql-server"
+ssh -p 65002 u528702659@151.106.117.181 "sudo systemctl start mysql && sudo systemctl enable mysql"
+
+5. Install PM2:
+ssh -p 65002 u528702659@151.106.117.181 "sudo npm install -g pm2"
+
+6. Install Nginx:
+ssh -p 65002 u528702659@151.106.117.181 "sudo apt install -y nginx"
+ssh -p 65002 u528702659@151.106.117.181 "sudo systemctl start nginx && sudo systemctl enable nginx"
+
+7. Create Application Directory:
+ssh -p 65002 u528702659@151.106.117.181 "sudo mkdir -p /var/www/vinque"
+ssh -p 65002 u528702659@151.106.117.181 "sudo chown -R u528702659:u528702659 /var/www/vinque"
+
+PHASE 2: FILE UPLOAD (Run after Phase 1 is complete)
+====================================================
+
+1. Upload Database Files:
+scp -P 65002 create_db.sql u528702659@151.106.117.181:/var/www/vinque/
+scp -P 65002 create_orders_table.sql u528702659@151.106.117.181:/var/www/vinque/
+
+2. Upload Backend Files:
+scp -P 65002 -r Backend u528702659@151.106.117.181:/var/www/vinque/
+
+3. Upload Frontend Files:
+scp -P 65002 -r pro u528702659@151.106.117.181:/var/www/vinque/
+
+4. Upload Environment File:
+scp -P 65002 .env.production u528702659@151.106.117.181:/var/www/vinque/
+
+PHASE 3: DATABASE SETUP
+=======================
+
+1. Create Database:
+ssh -p 65002 u528702659@151.106.117.181 "mysql -u root -p -e 'CREATE DATABASE IF NOT EXISTS \`e-web\`;'"
+
+2. Import Database Schema:
+ssh -p 65002 u528702659@151.106.117.181 "cd /var/www/vinque && mysql -u root -p e-web < create_db.sql"
+ssh -p 65002 u528702659@151.106.117.181 "cd /var/www/vinque && mysql -u root -p e-web < create_orders_table.sql"
+
+PHASE 4: APPLICATION SETUP
+==========================
+
+1. Install Backend Dependencies:
+ssh -p 65002 u528702659@151.106.117.181 "cd /var/www/vinque/Backend && npm install --production"
+
+2. Install and Build Frontend:
+ssh -p 65002 u528702659@151.106.117.181 "cd /var/www/vinque/pro && npm install"
+ssh -p 65002 u528702659@151.106.117.181 "cd /var/www/vinque/pro && npm run build"
+
+3. Configure Environment:
+ssh -p 65002 u528702659@151.106.117.181 "cp /var/www/vinque/.env.production /var/www/vinque/Backend/.env"
+
+PHASE 5: PM2 CONFIGURATION
+==========================
+
+1. Create PM2 Config File:
+ssh -p 65002 u528702659@151.106.117.181
+# Once connected, run:
+cat > /var/www/vinque/ecosystem.config.js << 'EOF'
+module.exports = {
+  apps: [{
+    name: 'vinque-backend',
+    script: './Backend/server.js',
+    cwd: '/var/www/vinque',
+    instances: 1,
+    autorestart: true,
+    watch: false,
+    max_memory_restart: '1G',
+    env: {
+      NODE_ENV: 'production',
+      PORT: 3000
+    }
+  }]
+};
+EOF
+
+2. Start Application:
+cd /var/www/vinque
+pm2 start ecosystem.config.js
+pm2 save
+pm2 startup
+# Type 'exit' to disconnect
+
+PHASE 6: NGINX CONFIGURATION
+============================
+
+1. Remove Default Site:
+ssh -p 65002 u528702659@151.106.117.181 "sudo rm -f /etc/nginx/sites-enabled/default"
+
+2. Create Vinque Site Config:
+ssh -p 65002 u528702659@151.106.117.181
+# Once connected, run:
+sudo tee /etc/nginx/sites-available/vinque > /dev/null << 'EOF'
+server {
+    listen 80;
+    server_name _;
+    
+    location / {
+        root /var/www/vinque/pro/dist;
+        try_files $uri $uri/ /index.html;
+    }
+    
+    location /api/ {
+        proxy_pass http://localhost:3000/;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+    }
+}
+EOF
+
+3. Enable Site:
+sudo ln -s /etc/nginx/sites-available/vinque /etc/nginx/sites-enabled/
+sudo nginx -t
+sudo systemctl reload nginx
+# Type 'exit' to disconnect
+
+FINAL VERIFICATION
+==================
+
+1. Check PM2 Status:
+ssh -p 65002 u528702659@151.106.117.181 "pm2 status"
+
+2. Check Nginx Status:
+ssh -p 65002 u528702659@151.106.117.181 "sudo systemctl status nginx"
+
+3. Test Application:
+Open browser and go to: http://151.106.117.181
+
+NOTES:
+- Enter password 'Chons123' when prompted
+- For MySQL setup, you may need to set a root password
+- Make sure all uploads complete successfully before proceeding
+- Check logs if any step fails: pm2 logs vinque-backend
+
+TROUBLESHOoting:
+- If upload fails, check SSH connection
+- If database import fails, check MySQL is running
+- If app doesn't start, check PM2 logs
+- If site not accessible, check Nginx config and firewall

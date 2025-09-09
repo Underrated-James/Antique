@@ -1,0 +1,206 @@
+:root {
+  --theme-light: #f5f0e1;
+  --theme-medium: #c7b198;
+  --theme-dark: #8e6e53;
+  --theme-darker: #654e32;
+  --text-dark: #333;
+  --text-light: #f5f0e1;
+  --error-color: #d32f2f;
+  --success-color: #388e3c;
+}
+
+.container {
+  display: flex;
+  min-height: calc(100vh - 60px);
+  background-color: var(--theme-light);
+}
+
+.content {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  justify-content: center;
+}
+
+.editProfileForm {
+  width: 100%;
+  max-width: 800px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  margin-bottom: 30px;
+}
+
+.mainHeading {
+  text-align: center;
+  color: var(--theme-dark);
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--theme-medium);
+  font-size: 28px;
+}
+
+.profileImageSection {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.profileImageContainer {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: pointer;
+  background-color: var(--theme-medium);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profileImageContainer:hover {
+  opacity: 0.9;
+}
+
+.profileImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.uploadPlaceholder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  color: white;
+}
+
+.changePhotoText {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  text-align: center;
+  padding: 5px 0;
+  font-size: 12px;
+  opacity: 0;
+}
+
+.profileImageContainer:hover .changePhotoText {
+  opacity: 1;
+}
+
+.storeInfoSection {
+  margin-bottom: 30px;
+}
+
+.formGroup {
+  margin-bottom: 20px;
+}
+
+.formLabel {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--text-dark);
+  font-weight: 500;
+}
+
+.formInput,
+.formTextarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.formInput:focus,
+.formTextarea:focus {
+  border-color: var(--theme-dark);
+  outline: none;
+}
+
+.formTextarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.formActions {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.saveButton,
+.cancelButton {
+  padding: 12px 30px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.saveButton {
+  background-color: var(--theme-dark);
+  color: white;
+}
+
+.saveButton:hover {
+  background-color: var(--theme-darker);
+}
+
+.cancelButton {
+  background-color: #e0e0e0;
+  color: var(--text-dark);
+}
+
+.cancelButton:hover {
+  background-color: #d0d0d0;
+}
+
+.loading,
+.error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+  width: 100%;
+  font-size: 18px;
+}
+
+.loading {
+  color: var(--theme-dark);
+}
+
+.error {
+  color: var(--error-color);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .content {
+    padding: 15px;
+  }
+
+  .editProfileForm {
+    padding: 20px;
+  }
+
+  .formActions {
+    flex-direction: column;
+  }
+
+  .saveButton,
+  .cancelButton {
+    width: 100%;
+  }
+}
